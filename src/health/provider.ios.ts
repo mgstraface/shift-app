@@ -14,7 +14,7 @@ const DISTANCE = 'HKQuantityTypeIdentifierDistanceWalkingRunning' as const;
 // combinan iPhone y Apple Watch sin contar dos veces los mismos pasos.
 async function sum(
   identifier: typeof STEPS | typeof DISTANCE,
-  unit: string,
+  unit: 'count' | 'm',
   start: Date,
   end: Date,
 ): Promise<{ value: number | null; sources: string[] }> {
