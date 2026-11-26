@@ -1,0 +1,48 @@
+{
+  "expo": {
+    "name": "SHIFT",
+    "slug": "shift",
+    "scheme": "shift",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "ios": {
+      "bundleIdentifier": "com.yunitex.shift",
+      "supportsTablet": false
+    },
+    "android": {
+      "package": "com.yunitex.shift",
+      "permissions": [
+        "android.permission.health.READ_STEPS",
+        "android.permission.health.READ_DISTANCE"
+      ]
+    },
+    "plugins": [
+      "expo-router",
+      "expo-sqlite",
+      "expo-notifications",
+      [
+        "@kingstinct/react-native-healthkit",
+        {
+          "NSHealthShareUsageDescription": "SHIFT lee tus pasos y la distancia recorrida solo durante las jornadas que registrás.",
+          "NSHealthUpdateUsageDescription": "SHIFT no escribe datos en Salud."
+        }
+      ],
+      "react-native-health-connect",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 36,
+            "targetSdkVersion": 36,
+            "minSdkVersion": 26
+          }
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
