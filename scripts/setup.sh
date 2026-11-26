@@ -13,7 +13,7 @@ npx expo install \
   @kingstinct/react-native-healthkit react-native-nitro-modules \
   react-native-health-connect
 
-npx expo install --dev typescript @types/react
+npx expo install typescript @types/react -- --save-dev
 
 npx expo install --fix
 
