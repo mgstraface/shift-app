@@ -56,6 +56,18 @@ export const healthProvider: HealthProvider = {
     }
   },
 
+  async diagnose() {
+    const end = new Date();
+    const start = new Date(end.getTime() - 24 * 3600 * 1000);
+    try {
+      const available = await Promise.resolve(isHealthDataAvailable());
+      const metrics = await this.getMetrics(start, end);
+      return { platform: 'ios', available, last24h: metrics };
+    } catch (e) {
+      return { platform: 'ios', error: String(e) };
+    }
+  },
+
   async getMetrics(start, end): Promise<ShiftMetrics> {
     const [steps, distance] = await Promise.all([
       sum(STEPS, 'count', start, end),

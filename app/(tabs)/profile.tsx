@@ -1,10 +1,11 @@
 import { useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
-import { Alert } from 'react-native';
+import { Alert, Text } from 'react-native';
 
 import { health, type HealthAvailability } from '@/health';
 import { clearAllShifts } from '@/shift/store';
 import { Body, Button, Card, Label, Screen, Title } from '@/ui/components';
+import { colors } from '@/ui/theme';
 
 const AVAILABILITY_TEXT: Record<HealthAvailability, string> = {
   available: 'Disponible',
@@ -21,6 +22,21 @@ export default function Profile() {
       health.availability().then(setAvailability).catch(() => setAvailability('unsupported'));
     }, []),
   );
+
+  const [diagnosis, setDiagnosis] = useState<string | null>(null);
+  const [diagnosing, setDiagnosing] = useState(false);
+
+  const runDiagnose = async () => {
+    setDiagnosing(true);
+    try {
+      const result = await health.diagnose();
+      setDiagnosis(JSON.stringify(result, null, 2));
+    } catch (e) {
+      setDiagnosis(`Error: ${String(e)}`);
+    } finally {
+      setDiagnosing(false);
+    }
+  };
 
   const onClear = () => {
     Alert.alert('Borrar mis datos', 'Se borran todas las jornadas guardadas en este celular. No se puede deshacer.', [
@@ -40,6 +56,17 @@ export default function Profile() {
         </Body>
         <Button title="Volver a pedir permisos" variant="secondary" onPress={() => health.requestPermissions()} />
         <Button title="Abrir configuración de salud" variant="secondary" onPress={() => health.openSettings()} />
+      </Card>
+
+      <Card>
+        <Label>Diagnóstico (beta)</Label>
+        <Body muted>Prueba la lectura de pasos de las últimas 24 h y muestra la respuesta cruda.</Body>
+        <Button title="Probar lectura" variant="secondary" onPress={runDiagnose} loading={diagnosing} />
+        {diagnosis ? (
+          <Text selectable style={{ color: colors.textMuted, fontFamily: 'monospace', fontSize: 12 }}>
+            {diagnosis}
+          </Text>
+        ) : null}
       </Card>
 
       <Card>

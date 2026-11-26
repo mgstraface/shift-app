@@ -19,5 +19,6 @@ export const type = {
   stat: { fontSize: 40, fontWeight: '800' as const, letterSpacing: -1 },
   title: { fontSize: 24, fontWeight: '700' as const },
   body: { fontSize: 16, fontWeight: '400' as const },
-  label: { fontSize: 13, fontWeight: '600' as const, letterSpacing: 0.6 },
+  // Sin letterSpacing: en Android recorta la última letra de algunos textos.
+  label: { fontSize: 13, fontWeight: '600' as const },
 };

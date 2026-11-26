@@ -5,6 +5,7 @@ import {
   getSdkStatus,
   initialize,
   openHealthConnectSettings,
+  readRecords,
   requestPermission,
   SdkAvailabilityStatus,
 } from 'react-native-health-connect';
@@ -51,6 +52,38 @@ export const healthProvider: HealthProvider = {
 
   async openInstall() {
     await Linking.openURL(PLAY_STORE_HC);
+  },
+
+  async diagnose() {
+    const out: Record<string, unknown> = { platform: 'android' };
+    const end = new Date();
+    const start = new Date(end.getTime() - 24 * 3600 * 1000);
+    const timeRangeFilter = {
+      operator: 'between' as const,
+      startTime: start.toISOString(),
+      endTime: end.toISOString(),
+    };
+    try {
+      out.sdkStatus = await getSdkStatus();
+      out.initialized = await ensureInit();
+      out.granted = await getGrantedPermissions();
+    } catch (e) {
+      out.setupError = String(e);
+      return out;
+    }
+    try {
+      out.stepsAggregate24h = await aggregateRecord({ recordType: 'Steps', timeRangeFilter });
+    } catch (e) {
+      out.stepsAggregateError = String(e);
+    }
+    try {
+      const raw = await readRecords('Steps', { timeRangeFilter });
+      out.stepsRecords24h = raw.records.length;
+      out.stepsOrigins = Array.from(new Set(raw.records.map((r) => r.metadata?.dataOrigin)));
+    } catch (e) {
+      out.stepsReadError = String(e);
+    }
+    return out;
   },
 
   // aggregateRecord ya elimina duplicados entre fuentes (celular, reloj, otras apps).

@@ -34,7 +34,8 @@ export async function startShift(garmentId: string | null = null): Promise<Shift
 export async function getLiveMetrics(shift: Shift): Promise<ShiftMetrics> {
   try {
     return await health.getMetrics(new Date(shift.startedAt), new Date());
-  } catch {
+  } catch (e) {
+    console.warn('[SHIFT] Error leyendo métricas de salud:', e);
     return { steps: null, distanceMeters: null, sources: [] };
   }
 }

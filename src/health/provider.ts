@@ -14,4 +14,7 @@ export const healthProvider: HealthProvider = {
   async getMetrics() {
     return { steps: null, distanceMeters: null, sources: [] };
   },
+  async diagnose() {
+    return { platform: 'unsupported' };
+  },
 };

@@ -23,4 +23,6 @@ export interface HealthProvider {
   openInstall?(): Promise<void>;
   /** Métricas agregadas (sin duplicados entre celular y reloj) del intervalo. */
   getMetrics(start: Date, end: Date): Promise<ShiftMetrics>;
+  /** Información cruda para depurar: permisos, respuesta de la plataforma y errores. */
+  diagnose(): Promise<Record<string, unknown>>;
 }
