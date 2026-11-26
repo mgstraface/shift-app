@@ -6,7 +6,7 @@ set -e
 npm install
 
 npx expo install \
-  react react-native \
+  react react-dom react-native \
   expo-router expo-linking expo-constants expo-status-bar \
   react-native-safe-area-context react-native-screens \
   expo-dev-client expo-sqlite expo-notifications expo-build-properties \
