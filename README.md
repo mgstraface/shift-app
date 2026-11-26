@@ -14,7 +14,7 @@ App móvil (iOS + Android) que registra la actividad de los profesionales de la 
 
 ## Primera vez
 
-Requisitos: Node 20+, cuenta de Expo (`npx eas-cli login`), y para iOS la cuenta de Apple Developer.
+Requisitos: Node 22.13+ (LTS), cuenta de Expo (`npx eas-cli login`), y para iOS la cuenta de Apple Developer.
 
 ```sh
 npm run setup          # instala dependencias con las versiones del SDK de Expo
